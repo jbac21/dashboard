@@ -6,7 +6,7 @@ This application has been submitted as a project for Harvard's CS50x 'Web Progra
 ### Description
 <ul>
     <li>Course description: https://cs50.harvard.edu/web/2020/</li>
-    <li>Video demo: </li>
+    <li>Video demo: https://youtu.be/oz-h5Gzo90w</li>
 </ul>
 
 ### Distinctiveness and Complexity
