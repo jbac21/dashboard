@@ -1,0 +1,175 @@
+{% extends "dashboard/layout.html" %}
+
+{% block body %}
+
+    <h1 class="caption white">Dashboard</h1>   
+    
+    {% if message %}
+        <div id="message" class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+        {% if user.is_authenticated %}
+
+            <div class="menuBar">
+                
+                <form class="form-group" action="{% url 'index' %}" style="display: flex; justify-content: center; padding-left: 10px;" method="get">
+                    {% csrf_token %}
+                    <li class="box">{{ form.year }}</li>
+                    <li class="box"> {{ form.month }}</li>
+                    <li class="box">{{ form.cummulation }}</li>
+                    <li><input type="submit" class="button-box btn-New box" value="Apply"></li>
+                    <li><input type="button" id="btn-addNewTile" class="button-box btn-New box" style="margin-bottom: 26px;" value="Add New Tile"></li>
+                </form>
+            </div>
+
+            <div class="db-frame">
+
+                {% for tile in tiles %}
+                    <div class="_3element db">
+                        <div class="tileHead">
+                            <h4 class="white">{{ tile.name }}</h4>
+                            <i id="{{ tile.id }}" class="fa fa-window-close tileClose close-New" style="font-size:22px;"></i>
+                        </div>
+                        <div class="_12element">    
+                            <canvas id="chart_{{ tile.id }}" height="200" width="140%" style="margin-left: 15px;"></canvas>
+                        </div>
+                        <div class="_12element">   
+                            <p class="white">{{ tile.year }}: <strong>{{ tile.value }}</strong></p>
+                            <p class="white">{{ tile.benchmarkYear }}:  <strong>{{ tile.benchmarkValue }}</strong></p>
+                            <p class="white">ΔYOY:  <strong>{{ tile.delta }}</strong></p>
+                            <p class="white">Market: <strong>{{ tile.market }}</strong></p>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                Chart.defaults.global.legend.display = false;
+                                var ctx = document.getElementById("chart_{{ tile.id }}").getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: [{{tile.benchmarkYear}},{{tile.year}}],
+                                        datasets: [{
+                                            label: '',
+                                            data: [{{ tile.benchmarkValueStrip }}, {{ tile.valueStrip }}],
+                                            backgroundColor: [
+                                                'rgba(255,207,0, 0.2)',    
+                                                'rgba(54, 162, 235, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255,207,0, 1)',    
+                                                'rgba(54, 162, 235, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        },
+                                        responsive: false,
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>  
+                {% endfor %}   
+                <div id="boxNewTile" class="_3element db">
+                    <div class="tileHead">
+                        <h4 class="white">Configure New Tile</h4>
+                        <i id="btn-newTileClose" class="fa fa-window-close tileClose" style="font-size:22px;"></i>
+                    </div>
+                    <div style="width: 100%; Padding: 20px; padding-left: 30px; padding-right: 30px;">   
+                        <form action="{% url 'index' %}" method="POST">
+                            {% csrf_token %}
+                            <div id="option_0" class="form-group">{{ tileForm.typeChoice }}</div>
+                            <div id="option_1" class="form-group">{{ tileForm.dfFormList }}</div>
+                            <div id="option_2" class="form-group">{{ tileForm.kpiFormList }}</div>
+                            <div class="form-group">{{ tileForm.market}}</div>
+                            <li><input type="submit" id="btn-newtile" class="button-box btn-New box" value="Create"></li>
+                        </form>
+                    </div> 
+                </div>
+        {% else %}
+            <div class="db-frame"></div>    
+            <div class="db _1element">
+                
+                <h3>Welcome to Dashboard</h3>
+                
+                <ul>
+                    <li class="login">Dashboard application enables you to create your own dashboards.</li>
+                    <li class="login">Enter or import your data.</li>
+                    <li class="login">Define your performance indicator.</li>
+                    <li class="login">Create your dashboard.</li>
+                </ul>
+
+                <p>Please <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> to view content.</p>
+
+            </div>
+        {% endif %}
+
+            </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            var formChoice = document.getElementById('formChoice');
+            document.getElementById('option_2').style.display="none";
+            document.getElementById('option_1').style.display="block";
+            document.getElementById('boxNewTile').style.display="none";
+
+            function adjChoice(formChoice) {
+                if (formChoice.value == 1){
+                    document.getElementById('option_1').style.display="none";
+                    document.getElementById('option_2').style.display="block";
+                } else {
+                    document.getElementById('option_1').style.display="block";
+                    document.getElementById('option_2').style.display="none";
+                }
+            }
+
+            formChoice.addEventListener('change', function() {
+                adjChoice(formChoice);
+            });
+
+            var btnNewTile = document.getElementById('btn-newtile');
+            btnNewTile.addEventListener('click', function() {
+                document.getElementById('boxNewTile').style.display="none";
+            });
+
+            document.getElementById('btn-newTileClose').addEventListener('click', function() {
+                document.getElementById('boxNewTile').style.display="none";
+            });
+            
+            document.getElementById('btn-addNewTile').addEventListener('click', function() {
+                adjChoice(formChoice)
+                document.getElementById('boxNewTile').style.display="block";
+            });
+
+            document.querySelectorAll('.close-New').forEach(element => {
+                element.addEventListener('click', function(event) {
+                    
+                    // Run Ajax
+                    $.ajax({
+                        url: "{% url 'delete_tile' %}",
+                        type: 'post',
+                        data:{
+                            'id': event.target.id,
+                            'csrfmiddlewaretoken':"{{csrf_token}}"
+                            },
+                        dataType: 'json',
+                            beforeSend: function() {
+                                event.target.parentNode.parentNode.style.display = "none";
+                            },
+                            success:function(res) {
+                                document.getElementById('message').innerHTML = "Tile has been deleted."
+                            }   
+                    });     
+                })
+            });
+        });
+    </script>
+
+{% endblock %}

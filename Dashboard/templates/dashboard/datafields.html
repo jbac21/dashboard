@@ -1,0 +1,69 @@
+{% extends "dashboard/layout.html" %}
+
+{% block body %}
+
+    <h2 class="caption white">Data Field Administration</h2>
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="db _1trelement">
+
+        <h3 class="white">Overview of Data Fields</h3>
+
+        <input type="submit" class="button-box btn-New box" value="Add New Field Code">
+        
+        <div id="New" class="db pop _1trelement">
+            <h4 class="white">Add New Data Field</h4>
+            <i id="close-New" class="fa fa-window-close" style="font-size:30px;"></i>
+    
+            <form action="{% url 'datafields' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    {{ form.code }}
+                </div>
+                <input type="submit" class="button-box btn-Add box" value="Add">
+            </form>
+        </div>
+
+        <div class="table-box"><table>
+            <tr class="tr-head">
+                <th><div class="table-cell">Data Field Code</div></th>
+                <th><div class="table-cell">Data Field Name</div></th>
+                <th><div class="table-cell"></div></th>
+            </tr>
+            {% for df in datafield %}
+            <tr>
+                <td><div class="table-cell">{{ df.code }}</div></td>
+                <td><div class="table-cell">{{ df.name }}</div></td>
+                <td><div id ="{{ df.id }}"><i class="fa fa-trash" style="font-size:20px; color: grey;"></i></div></td>
+            </tr>
+            {% endfor %}
+
+        </table></div>
+    </div>
+    <script>
+        document.querySelectorAll('.fa-trash').forEach(element => {
+            element.addEventListener('click', function(event) {             
+                $.ajax({
+                    url: "{% url 'delete_df' %}",
+                    type: 'post',
+                    data:{
+                        'id': event.target.parentNode.id,
+                        'csrfmiddlewaretoken':"{{csrf_token}}"
+                        },
+                    dataType: 'json',
+                        beforeSend: function() {
+                            event.target.parentNode.parentNode.parentNode.style.display = "none";
+                        },
+                        success:function(res) {
+                        }
+                    });
+                });
+            });     
+    </script>
+{% endblock %}

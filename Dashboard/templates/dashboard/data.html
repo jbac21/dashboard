@@ -1,0 +1,85 @@
+{% extends "dashboard/layout.html" %}
+
+{% block body %}
+
+<h2 class="caption white">Data</h2>
+
+{% if message %}
+    <div class="alert alert-primary" role="alert">{{ message }}</div>
+{% endif %}
+
+<div class="db _1trelement">
+
+    <h3 class="white">Data Set</h3>
+    
+    <input type="submit" class="button-box btn-New box" value="Add New Entry">
+    
+    <div id="New" class="db pop _1trelement">
+        <h4 class="white">Add New Entry</h4>
+        <i id="close-New" class="fa fa-window-close" style="font-size:30px;"></i>
+
+        <form action="{% url 'data' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <p>Timestamp:</p>
+                {{ form.timestamp }}
+            </div>
+            <div class="form-group">
+                <p>Assignment:</p>
+                {{ form.market }}
+            </div>
+            <div class="form-group">
+                <p>Centres:</p>
+                {{ form.dfCode }}
+            </div>
+            <div class="form-group">
+                {{ form.value }}
+            </div>
+            <input type="submit" class="button-box btn-Add box" value="Add">
+        </form>
+    </div>
+
+    <div class="table-box"><table>
+        <tr class="tr-head">
+            <th><div class="table-cell">Date</div></th>
+            <th><div class="table-cell">Data Field Code</div></th>
+            <th><div class="table-cell">Data Field Name</div></th>
+            <th><div class="table-cell">Market</div></th>
+            <th><div class="table-cell">Value</div></th>
+            <th><div class="table-cell"></div></th>
+        </tr>
+        {% for data in dataList %}
+            <tr>
+                <td><div class="table-cell">{{ data.timestamp }}</div></td>
+                <td><div class="table-cell">{{ data.dfCode }}</div></td>
+                <td><div class="table-cell">{{ data.name }}</div></td>
+                <td><div class="table-cell">{{ data.market }}</div></td>
+                <td><div class="table-cell">{{ data.value }} €</div></td>
+                <td><div id="{{ data.id }}" class="deleteBtnBox"><i class="fa fa-trash" style="font-size:20px; color: grey;"></i></div></td>
+            </tr>
+        {% endfor %}
+    </table></div>
+</div>
+
+<script>
+   document.querySelectorAll('.fa-trash').forEach(element => {
+        element.addEventListener('click', function(event) {             
+            $.ajax({
+                url: "{% url 'delete_data' %}",
+                type: 'post',
+                data:{
+                    'id': event.target.parentNode.id,
+                    'csrfmiddlewaretoken':"{{csrf_token}}"
+                    },
+                dataType: 'json',
+                    beforeSend: function() {
+                        event.target.parentNode.parentNode.parentNode.style.display = "none";
+                    },
+                    success:function(res) {
+                    }
+            });
+        });
+    });     
+</script>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "dashboard/layout.html" %}
+
+{% block body %}
+
+    <h2 class="caption white">Performance Indicator Administration</h2>
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="db _1trelement">
+
+        <h3 class="white">Overview of Performance Indicator</h3>
+
+        <input type="submit" class="button-box btn-New box" value="Add New Performance Indicator">
+        
+        <div id="New" class="db pop _1trelement">
+            <h4 class="white">Add new Performance Indicator</h4>
+            <i id="close-New" class="fa fa-window-close" style="font-size:30px;"></i>
+    
+            <form action="{% url 'kpi' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    {{ form.formula }}
+                </div>
+                <div class="form-group">
+                    {{ form.valueType }}
+                </div>
+                <input type="submit" class="button-box btn-Add box" value="Add">
+            </form>
+        </div>
+
+        <div class="table-box"><table>
+            <tr class="tr-head">
+                <th><div class="table-cell">Performance Indicator</div></th>
+                <th><div class="table-cell">Formula</div></th>
+                <th><div class="table-cell">Value Type</div></th>
+                <th><div class="table-cell"></div></th>
+            </tr>
+            {% for kpi in kpiList %}
+            <tr>
+                <td><div class="table-cell">{{ kpi.name }}</div></td>
+                <td><div class="table-cell">{{ kpi.formula }}</div></td>
+                <td><div class="table-cell">{{ kpi.valueType }}</div></td>
+                <td><div id ="{{ kpi.id }}"><i class="fa fa-trash" style="font-size:20px; color: grey;"></i></div></td>
+            </tr>
+            {% endfor %}
+        </table></div>
+
+    </div>
+    <script>
+        document.querySelectorAll('.fa-trash').forEach(element => {
+            element.addEventListener('click', function(event) {             
+                $.ajax({
+                    url: "{% url 'delete_pIndicator' %}",
+                    type: 'post',
+                    data:{
+                        'id': event.target.parentNode.id,
+                        'csrfmiddlewaretoken':"{{csrf_token}}"
+                        },
+                    dataType: 'json',
+                        beforeSend: function() {
+                            event.target.parentNode.parentNode.parentNode.style.display = "none";
+                        },
+                        success:function(res) {
+                        }
+                    });
+                });
+            });     
+        </script>
+{% endblock %}

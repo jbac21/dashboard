@@ -1,0 +1,365 @@
+.body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+}
+
+.table-box {
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    height: auto;
+}
+
+table, td {
+    border-bottom: 0.5px solid black;
+    border-top: 0.5px solid black;
+    border-collapse: collapse;
+    color: white;
+}
+
+tr {
+    line-height: 35px;
+}
+
+.tr-head {
+    background-color: rgba(0, 157, 255, 1);
+}
+
+td {
+    background-color: rgba(255,255,255,1);
+    color: black;
+}
+
+.table-cell {
+    padding-left: 10px;
+}
+
+.caption {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin: 0px;
+    padding: 0px;
+}
+
+.white {
+    color: white;
+}
+
+.grey {
+    color: rgb(203, 203, 203);
+}
+
+.bg-gradient-frame {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    z-index: 0;
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+}
+
+.bg-gradient {
+    width: 100%; height: 100%;
+    min-width: 800px;
+    background-color: #000;
+    background-image: radial-gradient(120vh 100vh at 50% 100%,rgba(0, 157, 255, 0.3),rgba(0, 0, 0, 1)),
+    radial-gradient(150vh 70vh at 50% 100%,rgb(0, 157, 255),rgba(0, 0, 0, 1)); 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: fixed;
+    top:10%;
+}
+
+.form {
+    width: 100%;
+}
+
+.page-element {
+    width: 100%;
+    border: lightgrey 2px solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    border-radius: 5px;
+    border: lightgrey 2px solid;
+    z-index: 99;
+}
+
+.form-element {
+    width: 100%;
+}
+
+.btn {
+    margin-bottom: 5px;
+    z-index: 99;
+}
+
+#header {
+    position: relative;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    margin-top: -20px;
+}
+
+.navbar {
+    list-style: none; 	  
+    width: 95%;
+    height: auto;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    background-color: black;
+    z-index: 1;
+}
+
+.head-bg {
+    position: relative;
+    width: 100%;
+    margin-top: -20px;
+}
+
+.nav-frame {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    z-index: 3;
+    
+    width: 95%;
+    height: 2px;
+    border-radius: 10px;
+
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+
+    background-image:linear-gradient(white, rgba(192,192,192));
+}
+
+.nav-frame-bg {
+    width: 95%; 
+    height: 250px;  
+    background-image: radial-gradient(100vh 20vh at 50% 100%,rgba(0, 157, 255, 0.05), transparent),
+    radial-gradient(80vh 1vh at 50% 100%,rgba(0, 157, 255, 0.65), transparent); 
+    background-size: 100% 100%;
+
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+
+    transform: rotate(180deg);
+    z-index: 2;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+}
+
+.navbar-nav {
+    width: auto;
+    display: inline-block;
+    height: auto;
+    text-align: center;
+    margin-left: 50%;
+}
+
+.nav-item {
+    width: auto;
+    padding-right: 20px;
+    height: auto;
+}
+
+.nav-link {
+    text-decoration: none; 
+    font-weight: bold;
+    height: 20px;
+    margin: 20px;
+}
+
+.nav-link:hover {
+    color: rgba(0, 157, 255, 1);
+}
+
+.db-frame {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.db {
+    background-color: rgba(0, 157, 255, 0.2);
+    margin-bottom: 20px;
+    border-radius: 15px;
+    border: solid 0.5px rgba(197, 197, 197, 0.1);
+}
+
+._1element {
+    width: 97.5%;
+    margin-left: 2.5%;
+    background-color: rgb(255, 255, 255, 1);
+    padding-left: 20px;    
+    padding-right: 20px;    
+    padding-bottom: 15px;
+    height: auto;
+}
+
+._1trelement {
+    width: 100%;
+    background-color: rgb(255, 255, 255, 0.2);
+    padding: 10px;
+    height: auto;
+    position: relative;
+    border-radius: 5px;
+}
+
+._3element {
+    height: 266px;
+    width: 400px;
+    margin-left: 1.25%;
+    margin-right: 1.25%;
+    background-color:rgba(0, 166, 255, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;;
+}
+
+.menuBar {
+    width: 100%;
+    padding-top: 10px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center; 
+}
+
+.pop {
+    background-color: rgb(255, 255, 255, 0.6);
+}
+
+input { 
+    width: 680px;
+}
+
+.submit {
+    width: 250px;
+}
+
+.tileHead { 
+    text-align: center;
+    width: 340px;
+    height: 40px;
+    border-bottom: solid 0.2px rgba(255,255,255,0.5);
+    margin-left: 30px;
+    margin-right: 30px;
+    position: relative;
+}
+
+.box {
+    margin-bottom: 10px;
+}
+
+.center {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.fa {
+    color: rgba(255,255,255,0.75);   
+}
+
+.fa:hover {
+    color: rgba(255,255,255,1);   
+}
+
+.fa-window-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 99;
+}
+
+.button-box {
+    background-color: rgb(0, 137, 222);
+    height: 35px;
+    width: 250px;
+    border-radius: 5px;
+    border: 0px;
+    color: white;
+    position: relative;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: block;
+}
+
+.button-box:hover {
+    background-color: rgb(0, 157, 255); 
+}
+
+.form-xselement {
+    width: 200px;;
+}
+
+.maxWidth {
+    width: 100%;
+}
+
+li {
+    list-style-type: none; 
+    display : inline;
+    margin-right: 10px;
+    }
+
+.login {
+    display: block;
+    list-style-type: disc; 
+    color: black;
+}
+
+.form-group {
+    z-index: 99;
+    display: flex; 
+    flex-wrap: wrap
+}
+
+._12element {
+    position: relative;
+    z-index: 100;
+    width: 50%;
+    height: auto;
+    max-height: 200px;
+    padding: 10px;
+    margin: 0px;
+}
+
+.tileClose {
+    position: absolute;
+    top: 8px;
+    right: 0px;
+}
+
+.blue {
+    color: rgba(0, 157, 255, 1);
+}
