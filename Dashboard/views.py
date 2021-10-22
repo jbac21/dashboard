@@ -260,10 +260,7 @@ def calculate(criteriasList, kpi, cummulation, dfMarkets, piMarkets, marketsFilt
         sums = []
         # criterias - all kpis unique
         # criteriasOrg - dfs on tiles in order
-        print("criterias")
-        print(criterias)
-        print("criteriasOrg")
-        print(criteriasOrg)
+
         for criteria in criterias:
             dfCriteria = dfFiltered2[dfFiltered2['Name'] == criteria]
             sums.append(dfCriteria['Value'].sum())
@@ -279,17 +276,12 @@ def calculate(criteriasList, kpi, cummulation, dfMarkets, piMarkets, marketsFilt
 
         marketResults.append(dfValues)
 
-
-    print(marketResults)
     # Create formula with values as string
     removeList = [' ']
     operatorList = ['+', '-', '*', '/', '(', ')', '[', ']']
 
     indicatorCriteria2 = indicatorCriteriaComplete[2] # kpi formulas
     calcList = []
-
-    print(marketsFilter)
-    print(marketResults)
 
     i = 0
     while i < len(indicatorCriteria2):
@@ -308,9 +300,6 @@ def calculate(criteriasList, kpi, cummulation, dfMarkets, piMarkets, marketsFilt
         calcList.append(kpiEdited)
         i += 1
     
-    print("calcList")
-    print(calcList)
-    
     # Calculate numerical kpi values
     calcResults = []
     for entry in calcList:
@@ -320,36 +309,18 @@ def calculate(criteriasList, kpi, cummulation, dfMarkets, piMarkets, marketsFilt
         try: calcResults.append(eval(calcFormula))
         except: calcResults.append(0)
 
-    # Input
-    print("criteriasOrg") # Order of df in tiles
-    print(marketsFilter) # Order of market on tiles
-
-    # Output
-    print("marketResults") # Data for each market sorted by criterias
-    print(marketResults)
-    print("dfMarkets") # order of markets, order of marketresults
-    print(dfMarkets)
-    print(marketsFilter)
-
-    print(len(marketsFilter))
-    print(len(dfMarkets))
-
     sumsOrg = [] 
     
     j = 0
     i = 0
     while i < len(criteriasOrg):
-        print("i"+str(i))
         while j < len(criterias):
             if criteriasOrg[i] == criterias[j]:
                 break
             else:
-                print(j)
                 j += 1
         
         k = 0
-        print(marketsFilter)
-        print(dfMarkets)
         while k < len(marketsFilter):
             if dfMarkets[i] == marketsFilter[k]:
                 marketIndex = k
@@ -357,15 +328,9 @@ def calculate(criteriasList, kpi, cummulation, dfMarkets, piMarkets, marketsFilt
             else:
                 k += 1
 
-        print(marketIndex)
-        print(criterias[j])
-
-
         sumsOrg.append(marketResults[marketIndex][criterias[j]])
         i += 1
 
-    print("sumsOrg")
-    print(sumsOrg)
     return sumsOrg, calcResults
 
 
@@ -463,15 +428,9 @@ def index(request):
         criteriasBenchmark = []
         for element in criterias:
             criteriasBenchmark.append(element)
-        print(criterias)
-        print(criteriasBenchmark)
-        print(strdate)
-        print(benchmark)
         results = calculate(criteriasList=criterias, kpi=kpi, cummulation=cummulation, dfMarkets=dfMarkets, piMarkets=piMarkets, marketsFilter=marketsFilter, strdate=strdate)
-        print(results)
-        print("BEEENCHHMARRK")
         resultsBenchmark = calculate(criteriasList=criteriasBenchmark, kpi=kpi, cummulation=cummulation, dfMarkets=dfMarkets, piMarkets=piMarkets, marketsFilter=marketsFilter, strdate=benchmark)
-        print(resultsBenchmark)
+        
 
         # Bring tile results into the correct order
         tileResults = []
